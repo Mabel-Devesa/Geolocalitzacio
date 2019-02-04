@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Act3_Geolocalitzacio</string>
+    <string name="car_button">Localitzador del teu vehicle</string>
+    <string name="help_button1">Help Button</string>
+    <string name="help_button2">Mostrar coordenades actuals</string>
+    <string name="title_activity_car_location_maps">Map</string>
+</resources>
