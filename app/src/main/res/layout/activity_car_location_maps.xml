@@ -10,12 +10,13 @@
 
     <!--Afegir un boto dins del fragment (Google Map)-->
     <Button
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|top"
-        android:text="Demo Button"
-        android:padding="10dp"
         android:layout_marginTop="20dp"
-        android:paddingRight="10dp"/>
+        android:padding="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/addMarker" />
 
 </fragment>
