@@ -64,6 +64,8 @@ public class CarLocationMapsActivity extends FragmentActivity implements OnMapRe
         boto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Esborra el marcador, si existeix
+                mMap.clear();
                 //Es crea un marcador amb la seva informacio
                 MarkerOptions opcions = new MarkerOptions();
                 opcions.title("El teu cotxe esta aqui");
