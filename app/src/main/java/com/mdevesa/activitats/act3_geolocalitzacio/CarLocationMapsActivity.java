@@ -3,6 +3,7 @@ package com.mdevesa.activitats.act3_geolocalitzacio;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -53,14 +54,10 @@ public class CarLocationMapsActivity extends FragmentActivity implements OnMapRe
         }
         gestorLoc.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);
 
-
-        /*Objectius:
-          -Un boto que ens crei una marca en la ubicacio actual
-          -Cal que el titol de la marca sigui el nom de la poblacio
-          -Esborrar el anterior marcador quan es crea el nou
-        **/
+        //Declarar el boto
         boto = (Button) findViewById(R.id.button);
 
+        //El onClickListener del boto
         boto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,12 +95,26 @@ public class CarLocationMapsActivity extends FragmentActivity implements OnMapRe
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap = googleMap;
+        //Agafar la localitzacio actual per mostrar-ho al mapa
+        LocationManager locationManager = (LocationManager)
+                getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+        LatLng actual = new LatLng((location.getLatitude()),location.getLongitude());
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(actual,13));
     }
 
     @Override
@@ -111,7 +122,7 @@ public class CarLocationMapsActivity extends FragmentActivity implements OnMapRe
         //Crear les coordenades de la posicio actual
         LatLng posicio = new LatLng(location.getLatitude(),location.getLongitude());
         //Afegir la camera amb el punt generat abans i un nivell de zoom
-        CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(posicio,5);
+        CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(posicio,13);
         //Desplacem la camera al nou punt
         mMap.moveCamera(camera);
         posicioActual = posicio;
